@@ -7,7 +7,7 @@
 /dts-v1/;
 
 #include "stm32mp157c.dtsi"
-#include "stm32mp157-pinctrl-brk.dtsi"
+#include "stm32mp157cac-pinctrl-brk.dtsi"
 #include "stm32mp157c-m4-srm.dtsi"
 #include <dt-bindings/input/input.h>
 #include <dt-bindings/mfd/st,stpmic1.h>
