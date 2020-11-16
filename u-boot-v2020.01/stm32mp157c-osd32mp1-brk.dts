@@ -1014,7 +1014,7 @@
 	};
 };
 
-&optee{
+&optee_memory{
 	status = "okay";
 };
 
