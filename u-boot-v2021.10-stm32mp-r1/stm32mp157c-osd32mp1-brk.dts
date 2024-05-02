@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: (GPL-2.0+ OR BSD-3-Clause) */
 /*
- * Copyright (C) Octavo Systems LLC 2020 - All Rights Reserved
+ * Copyright (C) Octavo Systems LLC 2022 - All Rights Reserved
  */
 
 /* For more information on Device Tree configuration, please refer to
@@ -55,6 +55,12 @@
 			no-map;
 		};
 
+		mcu_rsc_table: mcu_rsc_table@10048000 {
+			compatible = "shared-dma-pool";
+			reg = <0x10048000 0x8000>;
+			no-map;
+		};
+
 		mcuram:mcuram@30000000{
 			compatible = "shared-dma-pool";
 			reg = <0x30000000 0x40000>;
@@ -105,17 +111,6 @@
 		};
 	};
 
-	usb_phy_tuning:usb-phy-tuning{
-		st,hs-dc-level = <2>;
-		st,fs-rftime-tuning;
-		st,hs-rftime-reduction;
-		st,hs-current-trim = <15>;
-		st,hs-impedance-trim = <1>;
-		st,squelch-level = <3>;
-		st,hs-rx-offset = <2>;
-		st,no-lsfs-sc;
-	};
-
 	vin:vin{
 		compatible = "regulator-fixed";
 		regulator-name = "vin";
@@ -133,7 +128,16 @@
 	};
 
 	chosen{
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
 		stdout-path = "serial0:115200n8";
+
+		framebuffer {
+			compatible = "simple-framebuffer";
+			clocks = <&rcc LTDC_PX>;
+			status = "disabled";
+		};
 	};
 
 }; /*root*/
@@ -593,9 +597,9 @@
 
 &m4_rproc{
 	memory-region = <&retram>, <&mcuram>, <&mcuram2>, <&vdev0vring0>,
-			<&vdev0vring1>, <&vdev0buffer>;
-	mboxes = <&ipcc 0>, <&ipcc 1>, <&ipcc 2>;
-	mbox-names = "vq0", "vq1", "shutdown";
+			<&vdev0vring1>, <&vdev0buffer>, <&mcu_rsc_table>;
+	mboxes = <&ipcc 0>, <&ipcc 1>, <&ipcc 2>, <&ipcc 3>;
+	mbox-names = "vq0", "vq1", "shutdown", "detach";
 	interrupt-parent = <&exti>;
 	interrupts = <68 1>;
 	wakeup-source;
@@ -801,7 +805,6 @@
 			vref_ddr:vref_ddr{
 				regulator-name = "vref_ddr";
 				regulator-always-on;
-				regulator-over-current-protection;
 			};
 
 			bst_out:boost{
@@ -922,14 +925,38 @@
 	u-boot,dm-pre-reloc;
 	status = "okay";
 	phy-supply = <&vdd_usb>;
-	st,phy-tuning = <&usb_phy_tuning>;
+	st,tune-hs-dc-level = <2>;
+	st,enable-fs-rftime-tuning;
+	st,enable-hs-rftime-reduction;
+	st,trim-hs-current = <15>;
+	st,trim-hs-impedance = <1>;
+	st,tune-squelch-level = <3>;
+	st,tune-hs-rx-offset = <2>;
+	st,no-lsfs-sc;
+
+	/*
+	 * Hack to keep hub active until all connected devices are suspended
+	 * otherwise the hub will be powered off as soon as the v3v3 is disabled
+	 * and it can disturb connected devices.
+	 */
+	connector {
+		compatible = "usb-a-connector";
+		vbus-supply = <&v3v3>;
+	};
 };
 
 &usbphyc_port1{
 	u-boot,dm-pre-reloc;
 	status = "okay";
 	phy-supply = <&vdd_usb>;
-	st,phy-tuning = <&usb_phy_tuning>;
+	st,tune-hs-dc-level = <2>;
+	st,enable-fs-rftime-tuning;
+	st,enable-hs-rftime-reduction;
+	st,trim-hs-current = <15>;
+	st,trim-hs-impedance = <1>;
+	st,tune-squelch-level = <3>;
+	st,tune-hs-rx-offset = <2>;
+	st,no-lsfs-sc;
 };
 
 &adc {

@@ -5,10 +5,9 @@ This repository contains the device tree sources for OSD32MP1-BRK
 
 | Package | Version |
 | ------- | ------- |
-| OpenSTLinux Developer Package | v3.0.0 |
-| U-Boot version | v2020.10-stm32mp-r0 |
-| TF-A version | v2.4-stm32mp-r0 |
-| Kernel Version | v5.10-stm32mp-r0 |
-| Cube Programmer | v2.5 or greater |
+| OpenSTLinux Developer Package | v4.0.0 |
+| U-Boot version | v2021.10-stm32mp-r1 |
+| TF-A version | v2.6-stm32mp-r1 |
+| Kernel Version | v5.15.24-stm32mp1-r1 |
 
-Developer Package istallation : https://wiki.st.com/stm32mpu-ecosystem-v3/wiki/STM32MP1_Developer_Package
+Developer Package istallation: https://wiki.st.com/stm32mpu-ecosystem-v4/wiki/How_to_compile_the_device_tree_with_the_Developer_Package

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2018, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2022, Octavo Systems - All Rights Reserved
  *
  * SPDX-License-Identifier:	GPL-2.0+	BSD-3-Clause
  *
@@ -17,7 +17,7 @@
  * Save Date: 2020.08.27, save Time: 15:22:11
  */
 
-#define DDR_MEM_NAME	"DDR3-DDR3L 16bits 533000Khz"
+#define DDR_MEM_NAME	"DDR3-DDR3L 16bits 533000khz"
 #define DDR_MEM_SPEED	533000
 #define DDR_MEM_SIZE	0x20000000
 

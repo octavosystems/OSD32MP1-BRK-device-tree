@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: (GPL-2.0+ OR BSD-3-Clause) */
 /*
- * Copyright (C) STMicroelectronics 2020 - All Rights Reserved
- * Author: STM32CubeMX code generation for STMicroelectronics.
+ * Copyright (C) Octavo Systems 2022 - All Rights Reserved
+ * Author: Neeraj Dantu for Octavo Systems
  */
 
 /dts-v1/;
@@ -94,7 +94,6 @@
 	i2c-scl-falling-time-ns = <20>;
 	clock-frequency = <400000>;
 	status = "okay";
-	secure-status = "okay";
 
 	pmic: stpmic@33 {
 		compatible = "st,stpmic1";
@@ -103,7 +102,6 @@
 		interrupt-controller;
 		#interrupt-cells = <2>;
 		status = "okay";
-		secure-status = "okay";
 
 		regulators {
 			compatible = "st,stpmic1-regulators";
@@ -230,10 +228,9 @@
 
 			vtt_ddr: ldo3 {
 				regulator-name = "vtt_ddr";
-				regulator-min-microvolt = <500000>;
-				regulator-max-microvolt = <750000>;
 				regulator-always-on;
 				regulator-over-current-protection;
+				st,regulator-sink-source;
 				lp-stop{
 					regulator-off-in-suspend;
 				};
@@ -287,7 +284,6 @@
 			vref_ddr: vref_ddr {
 				regulator-name = "vref_ddr";
 				regulator-always-on;
-				regulator-over-current-protection;
 				lp-stop{
 					regulator-on-in-suspend;
 				};
@@ -319,29 +315,6 @@
 	timeout-sec = <32>;
 	secure-timeout-sec = <5>;
 	status = "okay";
-	secure-status = "okay";
-};
-
-&nvmem_layout {
-	nvmem-cells = <&cfg0_otp>,
-		      <&part_number_otp>,
-		      <&monotonic_otp>,
-		      <&nand_otp>,
-		      <&uid_otp>,
-		      <&package_otp>,
-		      <&hw2_otp>,
-		      <&pkh_otp>,
-		      <&board_id>;
-
-	nvmem-cell-names = "cfg0_otp",
-			   "part_number_otp",
-			   "monotonic_otp",
-			   "nand_otp",
-			   "uid_otp",
-			   "package_otp",
-			   "hw2_otp",
-			   "pkh_otp",
-			   "board_id";
 };
 
 &pwr_regulators {
@@ -449,12 +422,10 @@
 
 &rng1 {
 	status = "okay";
-	secure-status = "okay";
 };
 
 &rtc {
 	status = "okay";
-	secure-status = "okay";
 };
 
 &sdmmc1 {
@@ -468,7 +439,7 @@
 };
 
 &timers15 {
-	secure-status = "okay";
+	status = "okay";
 	st,hsi-cal-input = <7>;
 	st,csi-cal-input = <8>;
 };
