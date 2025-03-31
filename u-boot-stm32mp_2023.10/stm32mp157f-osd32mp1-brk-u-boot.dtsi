@@ -1,0 +1,35 @@
+// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
+/*
+ * Copyright (C) 2024, Octavo Systems - All Rights Reserved
+ * Author: Neeraj Dantu
+ */
+#include "stm32mp15-scmi-u-boot.dtsi"
+
+/ {
+	aliases {
+		i2c3 = &i2c4;
+		usb0 = &usbotg_hs;
+	};
+
+	config {
+		u-boot,boot-led = "LED2_GRN";
+		u-boot,error-led = "LED2_RED";
+		st,stm32prog-gpios = <&gpiod 9 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+	};
+}; /*root*/
+
+&uart4 {
+	bootph-all;
+};
+
+&uart4_pins_mx {
+	bootph-all;
+	pins1 {
+		bootph-all;
+	};
+	pins2 {
+		bootph-all;
+		/* pull-up on rx to avoid floating level */
+		bias-pull-up;
+	};
+};
